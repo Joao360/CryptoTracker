@@ -24,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -136,6 +138,20 @@ fun CoinDetailScreen(
                 var selectedDataPoint by remember {
                     mutableStateOf<DataPoint?>(null)
                 }
+                var labelWidth by remember {
+                    mutableFloatStateOf(0f)
+                }
+                var totalChartWidth by remember {
+                    mutableFloatStateOf(0f)
+                }
+                val amountOfVisibleDataPoints = if (labelWidth > 0) {
+                    ((totalChartWidth - 2.5 * labelWidth) / labelWidth).toInt()
+                } else {
+                    0
+                }
+
+                val startIndex = (coin.coinPriceHistory.lastIndex - amountOfVisibleDataPoints)
+                    .coerceAtLeast(0)
                 LineChart(
                     dataPoints = coin.coinPriceHistory,
                     style = ChartStyle(
@@ -150,13 +166,17 @@ fun CoinDetailScreen(
                         horizontalPadding = 8.dp,
                         xAxisLabelSpacing = 8.dp
                     ),
-                    visibleDataPointsIndices = coin.coinPriceHistory.indices,
+                    visibleDataPointsIndices = startIndex..coin.coinPriceHistory.lastIndex,
                     unit = "$",
                     modifier = Modifier.fillMaxWidth()
-                        .aspectRatio(16/9f),
+                        .aspectRatio(16/9f)
+                        .onSizeChanged { totalChartWidth = it.width.toFloat() },
                     selectedDataPoint = selectedDataPoint,
                     onSelectedDataPoint = {
                         selectedDataPoint = it
+                    },
+                    onXLabelWidthChange = {
+                        labelWidth = it
                     }
                 )
             }
