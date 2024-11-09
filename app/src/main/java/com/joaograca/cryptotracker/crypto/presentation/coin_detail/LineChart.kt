@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
@@ -82,7 +81,8 @@ fun LineChart(
     }
 
     Canvas(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .pointerInput(drawPoints, xLabelWidth) {
                 detectHorizontalDragGestures { change, _ ->
                     val newSelectedDataPointIndex = getSelectedDataPointIndex(
@@ -90,7 +90,8 @@ fun LineChart(
                         triggerWidth = xLabelWidth,
                         drawPoints = drawPoints
                     )
-                    isShowingDataPoints = (newSelectedDataPointIndex + visibleDataPointsIndices.first) in visibleDataPointsIndices
+                    isShowingDataPoints =
+                        (newSelectedDataPointIndex + visibleDataPointsIndices.first) in visibleDataPointsIndices
 
                     if (isShowingDataPoints) {
                         onSelectedDataPoint(dataPoints[newSelectedDataPointIndex])
@@ -112,7 +113,8 @@ fun LineChart(
         val maxXLabelWidth = xLabelTextLayoutResults.maxOfOrNull { it.size.width } ?: 0
         val maxXLabelHeight = xLabelTextLayoutResults.maxOfOrNull { it.size.height } ?: 0
         val maxXLabelLineCount = xLabelTextLayoutResults.maxOfOrNull { it.lineCount } ?: 0
-        val xLabelLineHeight = maxXLabelHeight / maxXLabelLineCount
+        val xLabelLineHeight =
+            if (maxXLabelLineCount > 0) maxXLabelHeight / maxXLabelLineCount else 0
 
         val viewPortHeightPx = size.height -
                 (maxXLabelHeight + 2 * verticalPaddingPx
@@ -351,7 +353,7 @@ private fun getSelectedDataPointIndex(
     val triggerRangeRight = touchOffsetX + triggerWidth / 2f
 
     return drawPoints.indexOfFirst {
-        it.x in triggerRangeLeft .. triggerRangeRight
+        it.x in triggerRangeLeft..triggerRangeRight
     }
 }
 
