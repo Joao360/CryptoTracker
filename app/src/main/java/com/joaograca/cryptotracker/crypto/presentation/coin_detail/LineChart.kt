@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -151,7 +153,7 @@ fun LineChart(
                 ),
                 color = if (index == selectedDataPointIndex) {
                     style.selectedColor
-                } else style.unselectedColor
+                } else style.unselectedColor,
             )
 
             if (showHelperLines) {
@@ -254,6 +256,42 @@ fun LineChart(
                 xLabel = dataPoints[it].xLabel
             )
         }
+
+        val conPoints1 = mutableListOf<DataPoint>()
+        val conPoints2 = mutableListOf<DataPoint>()
+        for (i in 1 until drawPoints.size) {
+            val p0 = drawPoints[i - 1]
+            val p1 = drawPoints[i]
+
+            val x = (p1.x + p0.x) / 2f
+            val y1 = p0.y
+            val y2 = p1.y
+
+            conPoints1.add(DataPoint(x = x, y = y1, xLabel = ""))
+            conPoints2.add(DataPoint(x = x, y = y2, xLabel = ""))
+        }
+
+        val linePath = Path().apply {
+            if (drawPoints.isNotEmpty()) {
+                moveTo(drawPoints.first().x, drawPoints.first().y)
+
+                for (i in 1 until drawPoints.size) {
+                    cubicTo(
+                        x1 = conPoints1[i - 1].x,
+                        y1 = conPoints1[i - 1].y,
+                        x2 = conPoints2[i - 1].x,
+                        y2 = conPoints2[i - 1].y,
+                        x3 = drawPoints[i].x,
+                        y3 = drawPoints[i].y
+                    )
+                }
+            }
+        }
+        drawPath(
+            path = linePath,
+            color = style.chartLineColor,
+            style = Stroke(width = 5f, cap = StrokeCap.Round)
+        )
 
         drawPoints.forEachIndexed { index, point ->
             if (isShowingDataPoints) {
