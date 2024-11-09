@@ -146,18 +146,18 @@ fun LineChart(
         val viewPortRightX = size.width
         val viewPortBottomY = viewPortTopY + viewPortHeightPx
         val viewPortLeftX = 2f * horizontalPaddingPx + maxYLabelWidth
-        val viewPort = Rect(
-            left = viewPortLeftX,
-            top = viewPortTopY,
-            right = viewPortRightX,
-            bottom = viewPortBottomY
-        )
+//        val viewPort = Rect(
+//            left = viewPortLeftX,
+//            top = viewPortTopY,
+//            right = viewPortRightX,
+//            bottom = viewPortBottomY
+//        )
 
-        drawRect(
-            color = Color.Green.copy(alpha = 0.3f),
-            topLeft = viewPort.topLeft,
-            size = viewPort.size
-        )
+//        drawRect(
+//            color = Color.Green.copy(alpha = 0.3f),
+//            topLeft = viewPort.topLeft,
+//            size = viewPort.size
+//        )
 
         xLabelWidth = maxXLabelWidth + xAxisLabelSpacingPx
         xLabelTextLayoutResults.forEachIndexed { index, result ->

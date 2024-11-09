@@ -4,6 +4,8 @@ import android.icu.text.NumberFormat
 import androidx.annotation.DrawableRes
 import com.joaograca.cryptotracker.core.presentation.util.getDrawableIdForCoin
 import com.joaograca.cryptotracker.crypto.domain.Coin
+import com.joaograca.cryptotracker.crypto.domain.CoinPrice
+import com.joaograca.cryptotracker.crypto.presentation.coin_detail.DataPoint
 import java.util.Locale
 
 data class CoinState(
@@ -14,7 +16,8 @@ data class CoinState(
     val marketCapUsd: DisplayableNumber,
     val priceUsd: DisplayableNumber,
     val changePercent24Hr: DisplayableNumber,
-    @DrawableRes val iconRes: Int
+    @DrawableRes val iconRes: Int,
+    val coinPriceHistory: List<DataPoint> = emptyList(),
 )
 
 data class DisplayableNumber(
