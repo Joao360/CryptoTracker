@@ -7,11 +7,11 @@ plugins {
 
 
 android {
-    namespace = "com.plcoding.cryptotracker"
+    namespace = "com.joaograca.cryptotracker"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.plcoding.cryptotracker"
+        applicationId = "com.joaograca.cryptotracker"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
