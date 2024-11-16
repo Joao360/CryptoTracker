@@ -6,6 +6,7 @@ import com.joaograca.cryptotracker.crypto.presentation.models.CoinState
 @Immutable
 data class CoinListState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val coins: List<CoinState> = emptyList(),
     val selectedCoin: CoinState? = null
 )

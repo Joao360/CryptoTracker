@@ -90,4 +90,24 @@ class CoinListViewModel(
                 }
         }
     }
+
+    fun refreshCoins() {
+        viewModelScope.launch {
+            _state.update { it.copy(isRefreshing = true) }
+
+            coinDataSource.getCoins()
+                .onSuccess { coins ->
+                    _state.update {
+                        it.copy(
+                            isRefreshing = false,
+                            coins = coins.map(Coin::toCoinState)
+                        )
+                    }
+                }
+                .onError { error ->
+                    _state.update { it.copy(isRefreshing = false) }
+                    _events.send(CoinListEvent.Error(error))
+                }
+        }
+    }
 }
