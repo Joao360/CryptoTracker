@@ -55,7 +55,8 @@ fun AdaptiveCoinListDetailPane(
                                 navigator.navigateTo(pane = ListDetailPaneScaffoldRole.Detail)
                             }
                         }
-                    }
+                    },
+                    onRefresh = viewModel::refreshCoins
                 )
             }
         },
