@@ -22,6 +22,7 @@ cryptocurrencies and detailed views for each coin, including price history chart
 - **Coin Details**: Detailed view of each coin with additional information such as market cap,
   price, and 24-hour change.
 - **Price History Chart**: Interactive line chart showing the price history of the selected coin.
+- **Dynamic Colors**: Dynamically adjust colors based on the user's background.
 
 ## Technologies Used
 
