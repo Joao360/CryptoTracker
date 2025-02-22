@@ -4,6 +4,9 @@ CryptoTracker is an Android application built with Kotlin and Jetpack Compose th
 track the prices and details of various cryptocurrencies. The app features a list of
 cryptocurrencies and detailed views for each coin, including price history charts.
 
+The data is being sourced from the CoinCap API. Its documentation can be found [here](https://docs.coincap.io/). 
+At the time of development, the API version used was the v2.
+
 ## Screenshots
 
 <div style="display: flex; flex-wrap: wrap;">
